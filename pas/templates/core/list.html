@@ -1,0 +1,37 @@
+
+<div class="container">
+
+    <a href="#/new" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-plus"></span> Add todo</a>
+
+    Filter: <input type="text" ng-model="search" class="search-query" placeholder="Search">
+
+    Sort by:
+    <div class="btn-group">
+        <button class="btn btn-default btn-primary" ng-click="ordering('due_date')"><span class="glyphicon glyphicon-sort"></span> Due date</button>
+        <button class="btn btn-default btn-primary" ng-click="ordering('priority')"><span class="glyphicon glyphicon-sort"></span> Priority</button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                  <th>Title</th>
+                  <th>Due date</th>
+            </tr>
+        </thead>
+        <tbody ui-sortable="todoSortable" ng-model="entries">
+        {% verbatim %}
+            <tr
+                ng-repeat="entry in entries | filter:{title:search} | orderBy: orderProperty: orderDirection"
+                ng-show="entry"
+                ng-class="{'bg-success': entry.priority == 0, 'bg-active': entry.priority == 1, 'bg-warning': entry-priority == 2, 'bg-danger': entry.priority == 3}">
+                <td><input type="checkbox" ng-model="entry.is_completed" ng-change="completeTodo(entry)" /></td>
+                <td>{{entry.title}}</td>
+                <td>{{entry.due_date}}</td>
+                <td>
+                    <a href="#/edit/{{entry.id}}"><i class="glyphicon-pencil glyphicon"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endverbatim %}
